@@ -123,7 +123,6 @@ fn julia(mut z: Complex<f64>, c: Complex<f64>) -> u8 {
         z = z.powu(2) + c;
         if z.norm() >= 2.0 {
             return n + 8 - (z.norm().ln().log2() as u8);
-            // return n;
         }
     }
     0
