@@ -3,8 +3,8 @@ use image::{Rgb, RgbImage};
 use nannou::prelude::*;
 use num::complex::Complex;
 
-const HEIGHT: u32 = 256;
-const WIDTH: u32 = 256;
+const HEIGHT: u32 = 512;
+const WIDTH: u32 = 512;
 
 struct Model {
     texture: wgpu::Texture,
