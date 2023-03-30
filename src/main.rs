@@ -57,10 +57,9 @@ fn view(app: &App, model: &Model, frame: Frame) {
     let img_buf = RgbImage::new(HEIGHT, WIDTH);
     let img_buf = fill(img_buf, frac_gen_config);
     let assets = app.assets_path().unwrap();
-    let img_path = assets.join("nature_1.jpg");
+    let img_path = assets.join("framebuf.jpg");
     img_buf.save(&img_path).unwrap();
-
-    draw.texture(&model.texture);
+    draw.texture(&model.texture).wh(app.window_rect().wh());
     draw.to_frame(app, &frame).unwrap();
 }
 
@@ -92,9 +91,6 @@ fn fill(mut a: RgbImage, config: Config) -> RgbImage {
 
     for y in 0..config.height {
         fy = y as f64 / config.height as f64 * (ymax - ymin) + ymin;
-        if y == config.height / 2 {
-            println!("Halfway there!");
-        }
         for x in 0..config.width {
             fx = x as f64 / config.width as f64 * (xmax - xmin) + xmin;
             z = Complex::new(fx, fy);
