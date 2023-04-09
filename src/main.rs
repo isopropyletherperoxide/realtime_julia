@@ -5,6 +5,7 @@ use num::complex::Complex;
 
 const HEIGHT: u32 = 512;
 const WIDTH: u32 = 512;
+const ITERATIONS: u32 = 200;
 
 struct Model {
     texture: wgpu::Texture,
@@ -39,11 +40,11 @@ fn view(app: &App, model: &Model, frame: Frame) {
     let r = app.mouse.x;
     // println!("{r}");
     let r = map_range(r, -(WIDTH as f32 / 2.0), WIDTH as f32 / 2.0, -2.0, 2.0);
-    println!("{r}");
+    // println!("{r}");
     let i = app.mouse.y;
     //  println!("{i}");
     let i = map_range(i, -(HEIGHT as f32 / 2.0), HEIGHT as f32 / 2.0, -2.0, 2.0);
-    println!("{i}");
+    // println!("{i}");
     let frac_gen_config = Config {
         height: HEIGHT,
         width: WIDTH,
@@ -89,9 +90,9 @@ fn fill(mut a: RgbImage, config: Config) -> RgbImage {
     );
     c = Complex::new(config.julia_r, config.julia_i);
 
-    for y in 0..config.height {
+    for y in 0..a.height() {
         fy = y as f64 / config.height as f64 * (ymax - ymin) + ymin;
-        for x in 0..config.width {
+        for x in 0..a.width() {
             fx = x as f64 / config.width as f64 * (xmax - xmin) + xmin;
             z = Complex::new(fx, fy);
             z_bright = julia(z, c).saturating_mul(config.contrast);
@@ -118,11 +119,12 @@ fn draw_pixel(a: &mut RgbImage, x: u32, y: u32, z_bright: u8, saturation: f64, v
 }
 
 fn julia(mut z: Complex<f64>, c: Complex<f64>) -> u8 {
-    let iterations = 200;
+    let iterations = ITERATIONS;
     for n in 0..iterations {
         z = z.powu(2) + c;
         if z.norm() >= 2.0 {
-            return n + 8 - (z.norm().ln().log2() as u8);
+            // return n + 8 - (z.norm().ln().log2() as u8);
+            return n as u8; 
         }
     }
     0
